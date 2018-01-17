@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectDblist, fetchPostsIfNeeded, invalidateDblist, searchDblist } from '../actions';
+import { selectDbList, fetchMListIfNeeded, searchMList } from '../actions';
 import ServantList from '../components/index';
 
 class SearchBox extends React.Component {
@@ -9,22 +9,21 @@ class SearchBox extends React.Component {
     this.changeText = this.changeText.bind(this);
     this.state = {
       value: '',
-      slist: this.props.posts
+      master_m: this.props.master_m
     };
   }
 
   changeText(e) {
-    const { dispatch, selectedDblist } = this.props;
-    const slist_fil = [];
-    const slist = this.props.slist;
-    for(const i in slist){
-      const str = JSON.stringify(slist[i]);
-      console.log(str.includes(e.target.value));
+    const { dispatch, selectedDbList } = this.props;
+    const mlist_fil = [];
+    const master_m = this.props.master_m;
+    for(const i in master_m){
+      const str = JSON.stringify(master_m[i]);
       if(str.includes(e.target.value)){
-        slist_fil.push(slist[i]);
+        mlist_fil.push(master_m[i]);
       }
     }
-    dispatch(searchDblist(selectedDblist, slist_fil));
+    dispatch(searchMList(selectedDbList, mlist_fil));
     this.setState({
       value: e.target.value
     });
@@ -32,7 +31,7 @@ class SearchBox extends React.Component {
 
   render(){
     return(
-      <div>
+      <div className="searchBox">
         <input type="text" onChange={this.changeText} value={this.state.value} />
       </div>
     );
@@ -42,49 +41,46 @@ class SearchBox extends React.Component {
 class App extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      slist: this.props.posts
-    };
   }
 
   componentDidMount() {
-    const { dispatch, selectedDblist } = this.props;
-    dispatch(fetchPostsIfNeeded(selectedDblist));
+    const { dispatch, selectedDbList } = this.props;
+    dispatch(fetchMListIfNeeded(selectedDbList, 'http://localhost:8000/masterlist', 'master'));
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedDblist !== this.props.selectedDblist) {
-      const { dispatch, selectedDblist } = nextProps;
-      dispatch(fetchPostsIfNeeded(selectedDblist));
+    if (nextProps.selectedDbList !== this.props.selectedDbList) {
+      const { dispatch, selectedDbList } = nextProps;
+      dispatch(fetchMListIfNeeded(selectedDbList, 'http://localhost:8000/masterlist', 'master'));
     }
   }
 
   render() {
     return(
       <div>
-        <SearchBox slist={this.props.master} dispatch={this.props.dispatch} selectedDblist={this.props.selectedDblist} />
-        <ServantList slist={this.props.posts} />
+        <SearchBox master_m={this.props.master_m} dispatch={this.props.dispatch} selectedDbList={this.props.selectedDbList} />
+        <ServantList master={this.props.master} />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { selectedDblist, postsByDblist } = state;
+  const { selectedDbList, mlistByDbList } = state;
   const {
     isFetching,
     lastUpdated,
-    items: posts,
-    master: master
-  } = postsByDblist[selectedDblist] || {
+    master: master,
+    master_m: master_m
+  } = mlistByDbList[selectedDbList] || {
     isFetching: true,
-    items: []
+    master: []
   };
 
   return {
-    selectedDblist,
-    posts,
+    selectedDbList,
     master,
+    master_m,
     isFetching,
     lastUpdated
   };

@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import {
   SELECT_DBLIST,
-  INVALIDATE_DBLIST,
-  REQUEST_POSTS,
-  RECEIVE_POSTS,
-  SEARCH_DBLIST
+  INVALIDATE_MLIST,
+  REQUEST_MLIST,
+  RECEIVE_MLIST,
+  SEARCH_MLIST
 } from '../actions';
 
-function selectedDblist(state = 'reactjs', action) {
+function selectedDbList(state = 'reactjs', action) {
   switch (action.type) {
   case SELECT_DBLIST:
     return action.dblist;
@@ -16,52 +16,49 @@ function selectedDblist(state = 'reactjs', action) {
   }
 }
 
-function posts(
+function mlist(
   state = {
     isFetching: false,
     didInvalidate: false,
-    items: [],
     master: []
   },
   action
 ) {
   switch (action.type) {
-  case INVALIDATE_DBLIST:
+  case INVALIDATE_MLIST:
     return Object.assign({}, state, {
       didInvalidate: true
     });
-  case REQUEST_POSTS:
+  case REQUEST_MLIST:
     return Object.assign({}, state, {
       isFetching: true,
       didInvalidate: false
     });
-  case RECEIVE_POSTS:
-  console.log(action.posts);
+  case RECEIVE_MLIST:
     return Object.assign({}, state, {
       isFetching: false,
       didInvalidate: false,
-      items: action.posts,
-      master: action.posts,
+      [action.hash]: action.mlist,
+      [action.hash_m]: action.mlist,
       lastUpdated: action.receivedAt
     });
-  case SEARCH_DBLIST:
-    console.log(action.posts);
+  case SEARCH_MLIST:
     return Object.assign({}, state, {
-      items: action.posts,
+      [action.hash]: action.mlist,
     });
   default:
     return state;
   }
 }
 
-function postsByDblist(state = {}, action) {
+function mlistByDbList(state = {}, action) {
   switch (action.type) {
-  case INVALIDATE_DBLIST:
-  case RECEIVE_POSTS:
-  case REQUEST_POSTS:
-  case SEARCH_DBLIST:
+  case INVALIDATE_MLIST:
+  case RECEIVE_MLIST:
+  case REQUEST_MLIST:
+  case SEARCH_MLIST:
     return Object.assign({}, state, {
-      [action.dblist]: posts(state[action.dblist], action)
+      [action.dblist]: mlist(state[action.dblist], action)
     });
   default:
     return state;
@@ -69,8 +66,8 @@ function postsByDblist(state = {}, action) {
 }
 
 const rootReducer = combineReducers({
-  postsByDblist,
-  selectedDblist
+  mlistByDbList,
+  selectedDbList
 });
 
 export default rootReducer;

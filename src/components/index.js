@@ -5,20 +5,20 @@ class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      slist: this.props.slist
+      mlist: this.props.master
     };
   }
 
   componentWillReceiveProps(nextProps){
     if ( nextProps !== this.props ) {
       this.setState({
-        slist: this.props.slist
+        mlist: this.props.master
       });
     }
   }
 
   render(){
-    let list = this.props.slist.map((row) => {
+    let list = this.props.master.map((row) => {
       return(
         <tr key={row.key_id}>
           <td>{row.master_id}</td>
@@ -61,15 +61,15 @@ export default class ServantList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      slist: []
+      master: []
     };
   }
 
   render(){
     return(
-      <div>
+      <div className="list">
         <table>
-          <List slist={this.props.slist} />
+          <List master={this.props.master} />
         </table>
       </div>
     );

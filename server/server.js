@@ -34,6 +34,14 @@ app.get('/masterlist', function (req, res) {
   });
 });
 
+app.get('/servantlist', function (req, res) {
+  connection.query('SELECT * FROM `servantlist`;', function (err, val, fields) {
+    if (err) { console.log('err: ' + err); }
+    let json = val;
+    res.send(json);
+  });
+});
+
 app.listen(8000, function (req, res) {
   console.log('Server is online.');
 });

@@ -1,64 +1,75 @@
 import fetch from 'cross-fetch';
 
-export const REQUEST_POSTS = 'REQUEST_POSTS';
-function requestPosts(dblist) {
-  return {
-    type: REQUEST_POSTS,
+export const SELECT_DBLIST = 'SELECT_DBLIST';
+export function selectDblist (dblist) {
+  return{
+    type: SELECT_DBLIST,
     dblist
   };
 }
 
-export const RECEIVE_POSTS = 'RECEIVE_POSTS';
-function receivePosts(dblist, json) {
+export const REQUEST_MLIST = 'REQUEST_MLIST';
+function requestMList(dblist) {
   return {
-    type: RECEIVE_POSTS,
+    type: REQUEST_MLIST,
+    dblist
+  };
+}
+
+export const RECEIVE_MLIST = 'RECEIVE_MLIST';
+function receiveMList(dblist, json, hash) {
+  return {
+    type: RECEIVE_MLIST,
     dblist,
-    posts: json,
+    hash: hash,
+    hash_m: hash + '_m',
+    mlist: json,
     receivedAt: Date.now()
   };
 }
 
-export const INVALIDATE_DBLIST = 'INVALIDATE_DBLIST';
-export function invalidateDblist(dblist) {
+export const INVALIDATE_MLIST = 'INVALIDATE_MLIST';
+export function invalidateMList(dblist) {
   return {
-    type: INVALIDATE_DBLIST,
+    type: INVALIDATE_MLIST,
     dblist
   };
 }
 
-export const SEARCH_DBLIST = 'SEARCH_DBLIST';
-export function searchDblist(dblist, json) {
+export const SEARCH_MLIST = 'SEARCH_MLIST';
+export function searchMList(dblist, json) {
   return {
-    type: SEARCH_DBLIST,
+    type: SEARCH_MLIST,
     dblist,
-    posts: json,
+    hash: 'master',
+    mlist: json,
   };
 }
 
-function fetchPosts(dblist) {
+function fetchMList(dblist, url, hash) {
   return dispatch => {
-    dispatch(requestPosts(dblist));
-    return fetch('http://localhost:8000/masterlist')
+    dispatch(requestMList(dblist));
+    return fetch(url)
       .then(response => response.json())
-      .then(json => dispatch(receivePosts(dblist, json)));
+      .then(json => dispatch(receiveMList(dblist, json, hash)));
   };
 }
 
-function shouldFetchPosts(state, dblist) {
-  const posts = state.postsByDblist[dblist];
-  if (!posts) {
+function shouldFetchMList(state, dblist) {
+  const mlist = state.mlistByDbList[dblist];
+  if (!mlist) {
     return true;
-  } else if (posts.isFetching) {
+  } else if (mlist.isFetching) {
     return false;
   } else {
-    return posts.didInvalidate;
+    return mlist.didInvalidate;
   }
 }
 
-export function fetchPostsIfNeeded(dblist) {
+export function fetchMListIfNeeded(dblist, url, hash) {
   return (dispatch, getState) => {
-    if (shouldFetchPosts(getState(), dblist)) {
-      return dispatch(fetchPosts(dblist));
+    if (shouldFetchMList(getState(), dblist)) {
+      return dispatch(fetchMList(dblist, url, hash));
     } else {
       return Promise.resolve();
     }
