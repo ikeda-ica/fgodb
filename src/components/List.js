@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-class List extends React.Component {
+class Listin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,7 +57,7 @@ class List extends React.Component {
   }
 }
 
-export default class ServantList extends React.Component {
+export default class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,7 +69,7 @@ export default class ServantList extends React.Component {
     return(
       <div className="list">
         <table>
-          <List master={this.props.master} />
+          <Listin master={this.props.master} />
         </table>
       </div>
     );

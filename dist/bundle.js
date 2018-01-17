@@ -261,6 +261,20 @@ process.umask = function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(32);
+} else {
+  module.exports = __webpack_require__(33);
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 
 
 /**
@@ -297,20 +311,6 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(32);
-} else {
-  module.exports = __webpack_require__(33);
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 3 */
@@ -507,7 +507,7 @@ module.exports = emptyObject;
 
 
 
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(2);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -654,12 +654,54 @@ module.exports = ReactPropTypesSecret;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
+function checkDCE() {
+  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
+  if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' || typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function') {
+    return;
+  }
+  if (process.env.NODE_ENV !== 'production') {
+    // This branch is unreachable because this function is only called
+    // in production, but the condition is true only in development.
+    // Therefore if the branch is still here, dead code elimination wasn't
+    // properly applied.
+    // Don't change the message. React DevTools relies on it. Also make sure
+    // this message doesn't occur elsewhere in this function, or it will cause
+    // a false positive.
+    throw new Error('^_^');
+  }
+  try {
+    // Verify that the code above has been dead code eliminated (DCE'd).
+    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
+  } catch (err) {
+    // DevTools shouldn't crash React, no matter what.
+    // We should still report in case we break this code.
+    console.error(err);
+  }
+}
+
+if (process.env.NODE_ENV === 'production') {
+  // DCE check should happen before ReactDOM bundle executes so that
+  // DevTools can report bad minification during injection.
+  checkDCE();
+  module.exports = __webpack_require__(34);
+} else {
+  module.exports = __webpack_require__(37);
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-var _createStore = __webpack_require__(20);
+var _createStore = __webpack_require__(21);
 
 var _createStore2 = _interopRequireDefault(_createStore);
 
@@ -675,11 +717,11 @@ var _applyMiddleware = __webpack_require__(56);
 
 var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 
-var _compose = __webpack_require__(23);
+var _compose = __webpack_require__(24);
 
 var _compose2 = _interopRequireDefault(_compose);
 
-var _warning = __webpack_require__(22);
+var _warning = __webpack_require__(23);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -703,7 +745,7 @@ exports.compose = _compose2.default;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -786,7 +828,7 @@ function isPlainObject(value) {
 exports.default = isPlainObject;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -816,7 +858,7 @@ try {
 module.exports = g;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -849,49 +891,107 @@ function warning(message) {
 }
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
 
-function checkDCE() {
-  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
-  if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' || typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function') {
-    return;
-  }
-  if (process.env.NODE_ENV !== 'production') {
-    // This branch is unreachable because this function is only called
-    // in production, but the condition is true only in development.
-    // Therefore if the branch is still here, dead code elimination wasn't
-    // properly applied.
-    // Don't change the message. React DevTools relies on it. Also make sure
-    // this message doesn't occur elsewhere in this function, or it will cause
-    // a false positive.
-    throw new Error('^_^');
-  }
-  try {
-    // Verify that the code above has been dead code eliminated (DCE'd).
-    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
-  } catch (err) {
-    // DevTools shouldn't crash React, no matter what.
-    // We should still report in case we break this code.
-    console.error(err);
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SEARCH_MLIST = exports.INVALIDATE_MLIST = exports.RECEIVE_MLIST = exports.REQUEST_MLIST = exports.SELECT_DBLIST = undefined;
+exports.selectDblist = selectDblist;
+exports.invalidateMList = invalidateMList;
+exports.searchMList = searchMList;
+exports.fetchMListIfNeeded = fetchMListIfNeeded;
+
+var _crossFetch = __webpack_require__(73);
+
+var _crossFetch2 = _interopRequireDefault(_crossFetch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SELECT_DBLIST = exports.SELECT_DBLIST = 'SELECT_DBLIST';
+function selectDblist(dblist) {
+  return {
+    type: SELECT_DBLIST,
+    dblist: dblist
+  };
+}
+
+var REQUEST_MLIST = exports.REQUEST_MLIST = 'REQUEST_MLIST';
+function requestMList(dblist) {
+  return {
+    type: REQUEST_MLIST,
+    dblist: dblist
+  };
+}
+
+var RECEIVE_MLIST = exports.RECEIVE_MLIST = 'RECEIVE_MLIST';
+function receiveMList(dblist, json, hash) {
+  return {
+    type: RECEIVE_MLIST,
+    dblist: dblist,
+    hash: hash,
+    hash_m: hash + '_m',
+    mlist: json,
+    receivedAt: Date.now()
+  };
+}
+
+var INVALIDATE_MLIST = exports.INVALIDATE_MLIST = 'INVALIDATE_MLIST';
+function invalidateMList(dblist) {
+  return {
+    type: INVALIDATE_MLIST,
+    dblist: dblist
+  };
+}
+
+var SEARCH_MLIST = exports.SEARCH_MLIST = 'SEARCH_MLIST';
+function searchMList(dblist, json) {
+  return {
+    type: SEARCH_MLIST,
+    dblist: dblist,
+    hash: 'master',
+    mlist: json
+  };
+}
+
+function fetchMList(dblist, url, hash) {
+  return function (dispatch) {
+    dispatch(requestMList(dblist));
+    return (0, _crossFetch2.default)(url).then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      return dispatch(receiveMList(dblist, json, hash));
+    });
+  };
+}
+
+function shouldFetchMList(state, dblist) {
+  var mlist = state.mlistByDbList[dblist];
+  if (!mlist) {
+    return true;
+  } else if (mlist.isFetching) {
+    return false;
+  } else {
+    return mlist.didInvalidate;
   }
 }
 
-if (process.env.NODE_ENV === 'production') {
-  // DCE check should happen before ReactDOM bundle executes so that
-  // DevTools can report bad minification during injection.
-  checkDCE();
-  module.exports = __webpack_require__(34);
-} else {
-  module.exports = __webpack_require__(37);
+function fetchMListIfNeeded(dblist, url, hash) {
+  return function (dispatch, getState) {
+    if (shouldFetchMList(getState(), dblist)) {
+      return dispatch(fetchMList(dblist, url, hash));
+    } else {
+      return Promise.resolve();
+    }
+  };
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -930,7 +1030,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -945,7 +1045,7 @@ module.exports = ExecutionEnvironment;
  * @typechecks
  */
 
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(2);
 
 /**
  * Upstream version of event listener. Does not take into account specific
@@ -1011,7 +1111,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1054,7 +1154,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1127,7 +1227,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1170,7 +1270,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1200,7 +1300,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1215,7 +1315,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.default = createStore;
 
-var _isPlainObject = __webpack_require__(10);
+var _isPlainObject = __webpack_require__(11);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
@@ -1472,7 +1572,7 @@ var ActionTypes = exports.ActionTypes = {
 }
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1494,7 +1594,7 @@ var _Symbol = _root2.default.Symbol;
 exports.default = _Symbol;
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1527,7 +1627,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1571,7 +1671,7 @@ function compose() {
 }
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1586,7 +1686,7 @@ var _Provider = __webpack_require__(57);
 
 var _Provider2 = _interopRequireDefault(_Provider);
 
-var _connectAdvanced = __webpack_require__(27);
+var _connectAdvanced = __webpack_require__(28);
 
 var _connectAdvanced2 = _interopRequireDefault(_connectAdvanced);
 
@@ -1602,7 +1702,7 @@ exports.connectAdvanced = _connectAdvanced2.default;
 exports.connect = _connect2.default;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1636,7 +1736,7 @@ if (process.env.NODE_ENV !== 'production') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1647,7 +1747,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.storeShape = exports.subscriptionShape = undefined;
 
-var _propTypes = __webpack_require__(25);
+var _propTypes = __webpack_require__(26);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -1667,7 +1767,7 @@ var storeShape = exports.storeShape = _propTypes2.default.shape({
 });
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1689,13 +1789,13 @@ var _invariant = __webpack_require__(61);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(1);
 
 var _Subscription = __webpack_require__(62);
 
 var _Subscription2 = _interopRequireDefault(_Subscription);
 
-var _PropTypes = __webpack_require__(26);
+var _PropTypes = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2008,7 +2108,7 @@ selectorFactory) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2021,7 +2121,7 @@ exports.wrapMapToPropsConstant = wrapMapToPropsConstant;
 exports.getDependsOnOwnProps = getDependsOnOwnProps;
 exports.wrapMapToPropsFunc = wrapMapToPropsFunc;
 
-var _verifyPlainObject = __webpack_require__(29);
+var _verifyPlainObject = __webpack_require__(30);
 
 var _verifyPlainObject2 = _interopRequireDefault(_verifyPlainObject);
 
@@ -2095,7 +2195,7 @@ function wrapMapToPropsFunc(mapToProps, methodName) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2106,11 +2206,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = verifyPlainObject;
 
-var _isPlainObject = __webpack_require__(10);
+var _isPlainObject = __webpack_require__(11);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -2123,109 +2223,21 @@ function verifyPlainObject(value, displayName, methodName) {
 }
 
 /***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SEARCH_DBLIST = exports.INVALIDATE_DBLIST = exports.RECEIVE_POSTS = exports.REQUEST_POSTS = undefined;
-exports.invalidateDblist = invalidateDblist;
-exports.searchDblist = searchDblist;
-exports.fetchPostsIfNeeded = fetchPostsIfNeeded;
-
-var _crossFetch = __webpack_require__(73);
-
-var _crossFetch2 = _interopRequireDefault(_crossFetch);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var REQUEST_POSTS = exports.REQUEST_POSTS = 'REQUEST_POSTS';
-function requestPosts(dblist) {
-  return {
-    type: REQUEST_POSTS,
-    dblist: dblist
-  };
-}
-
-var RECEIVE_POSTS = exports.RECEIVE_POSTS = 'RECEIVE_POSTS';
-function receivePosts(dblist, json) {
-  return {
-    type: RECEIVE_POSTS,
-    dblist: dblist,
-    posts: json,
-    receivedAt: Date.now()
-  };
-}
-
-var INVALIDATE_DBLIST = exports.INVALIDATE_DBLIST = 'INVALIDATE_DBLIST';
-function invalidateDblist(dblist) {
-  return {
-    type: INVALIDATE_DBLIST,
-    dblist: dblist
-  };
-}
-
-var SEARCH_DBLIST = exports.SEARCH_DBLIST = 'SEARCH_DBLIST';
-function searchDblist(dblist, json) {
-  return {
-    type: SEARCH_DBLIST,
-    dblist: dblist,
-    posts: json
-  };
-}
-
-function fetchPosts(dblist) {
-  return function (dispatch) {
-    dispatch(requestPosts(dblist));
-    return (0, _crossFetch2.default)('http://localhost:8000/masterlist').then(function (response) {
-      return response.json();
-    }).then(function (json) {
-      return dispatch(receivePosts(dblist, json));
-    });
-  };
-}
-
-function shouldFetchPosts(state, dblist) {
-  var posts = state.postsByDblist[dblist];
-  if (!posts) {
-    return true;
-  } else if (posts.isFetching) {
-    return false;
-  } else {
-    return posts.didInvalidate;
-  }
-}
-
-function fetchPostsIfNeeded(dblist) {
-  return function (dispatch, getState) {
-    if (shouldFetchPosts(getState(), dblist)) {
-      return dispatch(fetchPosts(dblist));
-    } else {
-      return Promise.resolve();
-    }
-  };
-}
-
-/***/ }),
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(13);
+var _reactDom = __webpack_require__(9);
 
-var _redux = __webpack_require__(9);
+var _redux = __webpack_require__(10);
 
-var _reactRedux = __webpack_require__(24);
+var _reactRedux = __webpack_require__(25);
 
 var _reduxThunk = __webpack_require__(70);
 
@@ -2273,7 +2285,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var m = __webpack_require__(3),
     n = __webpack_require__(5),
-    p = __webpack_require__(1),
+    p = __webpack_require__(2),
     q = "function" === typeof Symbol && Symbol["for"],
     r = q ? Symbol["for"]("react.element") : 60103,
     t = q ? Symbol["for"]("react.call") : 60104,
@@ -2408,7 +2420,7 @@ if (process.env.NODE_ENV !== "production") {
     var emptyObject = __webpack_require__(5);
     var invariant = __webpack_require__(4);
     var warning = __webpack_require__(6);
-    var emptyFunction = __webpack_require__(1);
+    var emptyFunction = __webpack_require__(2);
     var checkPropTypes = __webpack_require__(7);
 
     // TODO: this is special because it gets imported during build.
@@ -3763,15 +3775,15 @@ if (process.env.NODE_ENV !== "production") {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var aa = __webpack_require__(2),
-    l = __webpack_require__(14),
+var aa = __webpack_require__(1),
+    l = __webpack_require__(15),
     B = __webpack_require__(3),
-    C = __webpack_require__(1),
-    ba = __webpack_require__(15),
-    da = __webpack_require__(16),
-    ea = __webpack_require__(17),
-    fa = __webpack_require__(18),
-    ia = __webpack_require__(19),
+    C = __webpack_require__(2),
+    ba = __webpack_require__(16),
+    da = __webpack_require__(17),
+    ea = __webpack_require__(18),
+    fa = __webpack_require__(19),
+    ia = __webpack_require__(20),
     D = __webpack_require__(5);
 function E(a) {
   for (var b = arguments.length - 1, c = "Minified React error #" + a + "; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d" + a, d = 0; d < b; d++) {
@@ -5810,7 +5822,7 @@ module.exports = isNode;
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(2);var invariant=__webpack_require__(4);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(14);var _assign=__webpack_require__(3);var emptyFunction=__webpack_require__(1);var EventListener=__webpack_require__(15);var getActiveElement=__webpack_require__(16);var shallowEqual=__webpack_require__(17);var containsNode=__webpack_require__(18);var focusNode=__webpack_require__(19);var emptyObject=__webpack_require__(5);var checkPropTypes=__webpack_require__(7);var hyphenateStyleName=__webpack_require__(38);var camelizeStyleName=__webpack_require__(40);/**
+ */var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(1);var invariant=__webpack_require__(4);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(15);var _assign=__webpack_require__(3);var emptyFunction=__webpack_require__(2);var EventListener=__webpack_require__(16);var getActiveElement=__webpack_require__(17);var shallowEqual=__webpack_require__(18);var containsNode=__webpack_require__(19);var focusNode=__webpack_require__(20);var emptyObject=__webpack_require__(5);var checkPropTypes=__webpack_require__(7);var hyphenateStyleName=__webpack_require__(38);var camelizeStyleName=__webpack_require__(40);/**
  * WARNING: DO NOT manually require this module.
  * This is a replacement for `invariant(...)` used by the error code system
  * and will _only_ be required by the corresponding babel pass.
@@ -8949,7 +8961,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(21);
+var _Symbol2 = __webpack_require__(22);
 
 var _Symbol3 = _interopRequireDefault(_Symbol2);
 
@@ -9030,7 +9042,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var freeGlobal = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) == 'object' && global && global.Object === Object && global;
 
 exports.default = freeGlobal;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
 /* 45 */
@@ -9043,7 +9055,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(21);
+var _Symbol2 = __webpack_require__(22);
 
 var _Symbol3 = _interopRequireDefault(_Symbol2);
 
@@ -9262,7 +9274,7 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(52)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(52)(module)))
 
 /***/ }),
 /* 52 */
@@ -9335,13 +9347,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = combineReducers;
 
-var _createStore = __webpack_require__(20);
+var _createStore = __webpack_require__(21);
 
-var _isPlainObject = __webpack_require__(10);
+var _isPlainObject = __webpack_require__(11);
 
 var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-var _warning = __webpack_require__(22);
+var _warning = __webpack_require__(23);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -9549,7 +9561,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = applyMiddleware;
 
-var _compose = __webpack_require__(23);
+var _compose = __webpack_require__(24);
 
 var _compose2 = _interopRequireDefault(_compose);
 
@@ -9625,15 +9637,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.createProvider = createProvider;
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(1);
 
-var _propTypes = __webpack_require__(25);
+var _propTypes = __webpack_require__(26);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _PropTypes = __webpack_require__(26);
+var _PropTypes = __webpack_require__(27);
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -9736,7 +9748,7 @@ exports.default = createProvider();
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(2);
 var invariant = __webpack_require__(4);
 var warning = __webpack_require__(6);
 var assign = __webpack_require__(3);
@@ -10259,7 +10271,7 @@ module.exports = function (isValidElement, throwOnDirectAccess) {
 
 
 
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(2);
 var invariant = __webpack_require__(4);
 var ReactPropTypesSecret = __webpack_require__(8);
 
@@ -10554,7 +10566,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.createConnect = createConnect;
 
-var _connectAdvanced = __webpack_require__(27);
+var _connectAdvanced = __webpack_require__(28);
 
 var _connectAdvanced2 = _interopRequireDefault(_connectAdvanced);
 
@@ -10751,9 +10763,9 @@ exports.whenMapDispatchToPropsIsFunction = whenMapDispatchToPropsIsFunction;
 exports.whenMapDispatchToPropsIsMissing = whenMapDispatchToPropsIsMissing;
 exports.whenMapDispatchToPropsIsObject = whenMapDispatchToPropsIsObject;
 
-var _redux = __webpack_require__(9);
+var _redux = __webpack_require__(10);
 
-var _wrapMapToProps = __webpack_require__(28);
+var _wrapMapToProps = __webpack_require__(29);
 
 function whenMapDispatchToPropsIsFunction(mapDispatchToProps) {
   return typeof mapDispatchToProps === 'function' ? (0, _wrapMapToProps.wrapMapToPropsFunc)(mapDispatchToProps, 'mapDispatchToProps') : undefined;
@@ -10786,7 +10798,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.whenMapStateToPropsIsFunction = whenMapStateToPropsIsFunction;
 exports.whenMapStateToPropsIsMissing = whenMapStateToPropsIsMissing;
 
-var _wrapMapToProps = __webpack_require__(28);
+var _wrapMapToProps = __webpack_require__(29);
 
 function whenMapStateToPropsIsFunction(mapStateToProps) {
   return typeof mapStateToProps === 'function' ? (0, _wrapMapToProps.wrapMapToPropsFunc)(mapStateToProps, 'mapStateToProps') : undefined;
@@ -10815,7 +10827,7 @@ exports.wrapMergePropsFunc = wrapMergePropsFunc;
 exports.whenMergePropsIsFunction = whenMergePropsIsFunction;
 exports.whenMergePropsIsOmitted = whenMergePropsIsOmitted;
 
-var _verifyPlainObject = __webpack_require__(29);
+var _verifyPlainObject = __webpack_require__(30);
 
 var _verifyPlainObject2 = _interopRequireDefault(_verifyPlainObject);
 
@@ -11012,7 +11024,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = verifySubselectors;
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -11356,7 +11368,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         r = e.getState;return "function" == typeof t || "function" == typeof r ? S()({ dispatch: t, getState: r }) : void console.error("\n[redux-logger v3] BREAKING CHANGE\n[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.\n[redux-logger v3] Change\n[redux-logger v3] import createLogger from 'redux-logger'\n[redux-logger v3] to\n[redux-logger v3] import { createLogger } from 'redux-logger'\n");
   };e.defaults = L, e.createLogger = S, e.logger = T, e.default = T, Object.defineProperty(e, "__esModule", { value: !0 });
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
 /* 72 */
@@ -11369,13 +11381,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _redux = __webpack_require__(9);
+var _redux = __webpack_require__(10);
 
-var _actions = __webpack_require__(30);
+var _actions = __webpack_require__(14);
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function selectedDblist() {
+function selectedDbList() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'reactjs';
   var action = arguments[1];
 
@@ -11387,62 +11399,56 @@ function selectedDblist() {
   }
 }
 
-function posts() {
+function mlist() {
+  var _Object$assign;
+
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
     isFetching: false,
     didInvalidate: false,
-    items: [],
     master: []
   };
   var action = arguments[1];
 
   switch (action.type) {
-    case _actions.INVALIDATE_DBLIST:
+    case _actions.INVALIDATE_MLIST:
       return Object.assign({}, state, {
         didInvalidate: true
       });
-    case _actions.REQUEST_POSTS:
+    case _actions.REQUEST_MLIST:
       return Object.assign({}, state, {
         isFetching: true,
         didInvalidate: false
       });
-    case _actions.RECEIVE_POSTS:
-      console.log(action.posts);
-      return Object.assign({}, state, {
+    case _actions.RECEIVE_MLIST:
+      return Object.assign({}, state, (_Object$assign = {
         isFetching: false,
-        didInvalidate: false,
-        items: action.posts,
-        master: action.posts,
-        lastUpdated: action.receivedAt
-      });
-    case _actions.SEARCH_DBLIST:
-      console.log(action.posts);
-      return Object.assign({}, state, {
-        items: action.posts
-      });
+        didInvalidate: false
+      }, _defineProperty(_Object$assign, action.hash, action.mlist), _defineProperty(_Object$assign, action.hash_m, action.mlist), _defineProperty(_Object$assign, 'lastUpdated', action.receivedAt), _Object$assign));
+    case _actions.SEARCH_MLIST:
+      return Object.assign({}, state, _defineProperty({}, action.hash, action.mlist));
     default:
       return state;
   }
 }
 
-function postsByDblist() {
+function mlistByDbList() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments[1];
 
   switch (action.type) {
-    case _actions.INVALIDATE_DBLIST:
-    case _actions.RECEIVE_POSTS:
-    case _actions.REQUEST_POSTS:
-    case _actions.SEARCH_DBLIST:
-      return Object.assign({}, state, _defineProperty({}, action.dblist, posts(state[action.dblist], action)));
+    case _actions.INVALIDATE_MLIST:
+    case _actions.RECEIVE_MLIST:
+    case _actions.REQUEST_MLIST:
+    case _actions.SEARCH_MLIST:
+      return Object.assign({}, state, _defineProperty({}, action.dblist, mlist(state[action.dblist], action)));
     default:
       return state;
   }
 }
 
 var rootReducer = (0, _redux.combineReducers)({
-  postsByDblist: postsByDblist,
-  selectedDblist: selectedDblist
+  mlistByDbList: mlistByDbList,
+  selectedDbList: selectedDbList
 });
 
 exports.default = rootReducer;
@@ -11941,17 +11947,21 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(24);
+var _reactRedux = __webpack_require__(25);
 
-var _actions = __webpack_require__(30);
+var _actions = __webpack_require__(14);
 
-var _index = __webpack_require__(75);
+var _List = __webpack_require__(75);
 
-var _index2 = _interopRequireDefault(_index);
+var _List2 = _interopRequireDefault(_List);
+
+var _Search = __webpack_require__(76);
+
+var _Search2 = _interopRequireDefault(_Search);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11961,88 +11971,32 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var SearchBox = function (_React$Component) {
-  _inherits(SearchBox, _React$Component);
-
-  function SearchBox(props) {
-    _classCallCheck(this, SearchBox);
-
-    var _this = _possibleConstructorReturn(this, (SearchBox.__proto__ || Object.getPrototypeOf(SearchBox)).call(this, props));
-
-    _this.changeText = _this.changeText.bind(_this);
-    _this.state = {
-      value: '',
-      slist: _this.props.posts
-    };
-    return _this;
-  }
-
-  _createClass(SearchBox, [{
-    key: 'changeText',
-    value: function changeText(e) {
-      var _props = this.props,
-          dispatch = _props.dispatch,
-          selectedDblist = _props.selectedDblist;
-
-      var slist_fil = [];
-      var slist = this.props.slist;
-      for (var i in slist) {
-        var str = JSON.stringify(slist[i]);
-        console.log(str.includes(e.target.value));
-        if (str.includes(e.target.value)) {
-          slist_fil.push(slist[i]);
-        }
-      }
-      dispatch((0, _actions.searchDblist)(selectedDblist, slist_fil));
-      this.setState({
-        value: e.target.value
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement('input', { type: 'text', onChange: this.changeText, value: this.state.value })
-      );
-    }
-  }]);
-
-  return SearchBox;
-}(_react2.default.Component);
-
 var App = function (_Component) {
   _inherits(App, _Component);
 
   function App(props) {
     _classCallCheck(this, App);
 
-    var _this2 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-    _this2.state = {
-      slist: _this2.props.posts
-    };
-    return _this2;
+    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
   }
 
   _createClass(App, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _props2 = this.props,
-          dispatch = _props2.dispatch,
-          selectedDblist = _props2.selectedDblist;
+      var _props = this.props,
+          dispatch = _props.dispatch,
+          selectedDbList = _props.selectedDbList;
 
-      dispatch((0, _actions.fetchPostsIfNeeded)(selectedDblist));
+      dispatch((0, _actions.fetchMListIfNeeded)(selectedDbList, 'http://localhost:8000/masterlist', 'master'));
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.selectedDblist !== this.props.selectedDblist) {
+      if (nextProps.selectedDbList !== this.props.selectedDbList) {
         var dispatch = nextProps.dispatch,
-            selectedDblist = nextProps.selectedDblist;
+            selectedDbList = nextProps.selectedDbList;
 
-        dispatch((0, _actions.fetchPostsIfNeeded)(selectedDblist));
+        dispatch((0, _actions.fetchMListIfNeeded)(selectedDbList, 'http://localhost:8000/masterlist', 'master'));
       }
     }
   }, {
@@ -12051,8 +12005,8 @@ var App = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(SearchBox, { slist: this.props.master, dispatch: this.props.dispatch, selectedDblist: this.props.selectedDblist }),
-        _react2.default.createElement(_index2.default, { slist: this.props.posts })
+        _react2.default.createElement(_Search2.default, { master_m: this.props.master_m, dispatch: this.props.dispatch, selectedDbList: this.props.selectedDbList }),
+        _react2.default.createElement(_List2.default, { master: this.props.master })
       );
     }
   }]);
@@ -12061,22 +12015,22 @@ var App = function (_Component) {
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-  var selectedDblist = state.selectedDblist,
-      postsByDblist = state.postsByDblist;
+  var selectedDbList = state.selectedDbList,
+      mlistByDbList = state.mlistByDbList;
 
-  var _ref = postsByDblist[selectedDblist] || {
+  var _ref = mlistByDbList[selectedDbList] || {
     isFetching: true,
-    items: []
+    master: []
   },
       isFetching = _ref.isFetching,
       lastUpdated = _ref.lastUpdated,
-      posts = _ref.items,
-      master = _ref.master;
+      master = _ref.master,
+      master_m = _ref.master_m;
 
   return {
-    selectedDblist: selectedDblist,
-    posts: posts,
+    selectedDbList: selectedDbList,
     master: master,
+    master_m: master_m,
     isFetching: isFetching,
     lastUpdated: lastUpdated
   };
@@ -12097,11 +12051,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(13);
+var _reactDom = __webpack_require__(9);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12111,33 +12065,33 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var List = function (_React$Component) {
-  _inherits(List, _React$Component);
+var Listin = function (_React$Component) {
+  _inherits(Listin, _React$Component);
 
-  function List(props) {
-    _classCallCheck(this, List);
+  function Listin(props) {
+    _classCallCheck(this, Listin);
 
-    var _this = _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Listin.__proto__ || Object.getPrototypeOf(Listin)).call(this, props));
 
     _this.state = {
-      slist: _this.props.slist
+      mlist: _this.props.master
     };
     return _this;
   }
 
-  _createClass(List, [{
+  _createClass(Listin, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (nextProps !== this.props) {
         this.setState({
-          slist: this.props.slist
+          mlist: this.props.master
         });
       }
     }
   }, {
     key: 'render',
     value: function render() {
-      var list = this.props.slist.map(function (row) {
+      var list = this.props.master.map(function (row) {
         return _react2.default.createElement(
           'tr',
           { key: row.key_id },
@@ -12266,42 +12220,123 @@ var List = function (_React$Component) {
     }
   }]);
 
-  return List;
+  return Listin;
 }(_react2.default.Component);
 
-var ServantList = function (_React$Component2) {
-  _inherits(ServantList, _React$Component2);
+var List = function (_React$Component2) {
+  _inherits(List, _React$Component2);
 
-  function ServantList(props) {
-    _classCallCheck(this, ServantList);
+  function List(props) {
+    _classCallCheck(this, List);
 
-    var _this2 = _possibleConstructorReturn(this, (ServantList.__proto__ || Object.getPrototypeOf(ServantList)).call(this, props));
+    var _this2 = _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
 
     _this2.state = {
-      slist: []
+      master: []
     };
     return _this2;
   }
 
-  _createClass(ServantList, [{
+  _createClass(List, [{
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'list' },
         _react2.default.createElement(
           'table',
           null,
-          _react2.default.createElement(List, { slist: this.props.slist })
+          _react2.default.createElement(Listin, { master: this.props.master })
         )
       );
     }
   }]);
 
-  return ServantList;
+  return List;
 }(_react2.default.Component);
 
-exports.default = ServantList;
+exports.default = List;
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(9);
+
+var _actions = __webpack_require__(14);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Search = function (_React$Component) {
+  _inherits(Search, _React$Component);
+
+  function Search(props) {
+    _classCallCheck(this, Search);
+
+    var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+
+    _this.changeText = _this.changeText.bind(_this);
+    _this.state = {
+      value: '',
+      master_m: _this.props.master_m
+    };
+    return _this;
+  }
+
+  _createClass(Search, [{
+    key: 'changeText',
+    value: function changeText(e) {
+      var _props = this.props,
+          dispatch = _props.dispatch,
+          selectedDbList = _props.selectedDbList;
+
+      var mlist_fil = [];
+      var master_m = this.props.master_m;
+      for (var i in master_m) {
+        var str = JSON.stringify(master_m[i]);
+        if (str.includes(e.target.value)) {
+          mlist_fil.push(master_m[i]);
+        }
+      }
+      dispatch((0, _actions.searchMList)(selectedDbList, mlist_fil));
+      this.setState({
+        value: e.target.value
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'searchBox' },
+        _react2.default.createElement('input', { type: 'text', onChange: this.changeText, value: this.state.value })
+      );
+    }
+  }]);
+
+  return Search;
+}(_react2.default.Component);
+
+exports.default = Search;
 
 /***/ })
 /******/ ]);
