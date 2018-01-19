@@ -53,6 +53,54 @@ html, body{
 }
 
 #root{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	.theme-dark{
+		// Needs latest Compass, add '@import "compass"' to your scss
+		// Permalink - use to edit and share this gradient:
+		// http://colorzilla.com/gradient-editor/#1d0a35+0,474666+100
+		background-color: rgb(29,10,53); // Old browsers
+		@include filter-gradient(#1d0a35, #474666, vertical); // IE6-9
+		@include background-image(linear-gradient(top, rgba(29,10,53,1) 0%,rgba(71,70,102,1) 100%));
+	}
+
+	.addDialog{
+		table{
+			tr{
+				td{
+					width: 120px;
+          padding: 5px;
+          font-size: 1.2rem;
+					box-sizing: border-box;
+					.sName{
+						input{
+							margin: 0 0 10px;
+						}
+					}
+					input{
+						width: 100%;
+						height: 30px;
+				    box-sizing: border-box;
+				    display: block;
+					}
+					.sSkill{
+						letter-spacing: -.4em;
+						li{
+							text-align: center;
+							width: 32.33%;
+							display: inline-block;
+							letter-spacing: normal;
+							margin-right: 1%;
+							&:last-child{
+								margin-right: 0;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
   .list{
     table{
       border-collapse: collapse;
@@ -64,14 +112,28 @@ html, body{
         }
         th, td{
           width: 120px;
-          padding: 5px 10px;
+          padding: 5px;
           font-size: 1.2rem;
+					box-sizing: border-box;
         }
         th{
           border: 1px solid rgba(200, 200, 200, 0.5);
         }
         td{
           border: 1px solid rgba(200, 200, 200, 0.2);
+					.sName{
+						font-weight: bold;
+						margin: 0 0 10px;
+					}
+					.sSkill{
+						letter-spacing: -.4em;
+						text-align: center;
+						li{
+							display: inline-block;
+							width: 33.33%;
+							letter-spacing: normal;
+						}
+					}
         }
       }
     }
