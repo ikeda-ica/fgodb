@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchMListIfNeeded } from '../actions';
 import List from '../components/List';
 import Search from '../components/Search';
-
+import AddDialog from '../components/AddDialog';
 
 class App extends Component {
   constructor(props){
@@ -12,19 +12,20 @@ class App extends Component {
 
   componentDidMount() {
     const { dispatch, selectedDbList } = this.props;
-    dispatch(fetchMListIfNeeded(selectedDbList, 'http://localhost:8000/masterlist', 'master'));
+    dispatch(fetchMListIfNeeded(selectedDbList, '/masterlist', 'master'));
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedDbList !== this.props.selectedDbList) {
       const { dispatch, selectedDbList } = nextProps;
-      dispatch(fetchMListIfNeeded(selectedDbList, 'http://localhost:8000/masterlist', 'master'));
+      dispatch(fetchMListIfNeeded(selectedDbList, '/masterlist', 'master'));
     }
   }
 
   render() {
     return(
-      <div>
+      <div className="theme">
+        <AddDialog master_m={this.props.master_m} dispatch={this.props.dispatch} selectedDbList={this.props.selectedDbList} />
         <Search master_m={this.props.master_m} dispatch={this.props.dispatch} selectedDbList={this.props.selectedDbList} />
         <List master={this.props.master} />
       </div>

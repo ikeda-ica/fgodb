@@ -46,7 +46,7 @@ export function searchMList(dblist, json) {
   };
 }
 
-function fetchMList(dblist, url, hash) {
+export function fetchMList(dblist, url, hash) {
   return dispatch => {
     dispatch(requestMList(dblist));
     return fetch(url)

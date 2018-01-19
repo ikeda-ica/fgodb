@@ -31,65 +31,65 @@ class Listin extends React.Component {
           <td>
             <p className="sName">{row.saber}</p>
             <ul className="sSkill">
-              <li>{this.strSkillKv(row.saber_skill, 2)}</li>
-              <li>{this.strSkillKv(row.saber_skill, 3)}</li>
-              <li>{this.strSkillKv(row.saber_skill, 4)}</li>
+              <li>{row.saber_skill1}</li>
+              <li>{row.saber_skill2}</li>
+              <li>{row.saber_skill3}</li>
             </ul>
           </td>
           <td>
             <p className="sName">{row.archer}</p>
             <ul className="sSkill">
-              <li>{this.strSkillKv(row.archer_skill, 2)}</li>
-              <li>{this.strSkillKv(row.archer_skill, 3)}</li>
-              <li>{this.strSkillKv(row.archer_skill, 4)}</li>
+              <li>{row.archer_skill1}</li>
+              <li>{row.archer_skill2}</li>
+              <li>{row.archer_skill3}</li>
             </ul>
           </td>
           <td>
             <p className="sName">{row.lancer}</p>
             <ul className="sSkill">
-              <li>{this.strSkillKv(row.lancer_skill, 2)}</li>
-              <li>{this.strSkillKv(row.lancer_skill, 3)}</li>
-              <li>{this.strSkillKv(row.lancer_skill, 4)}</li>
+              <li>{row.lancer_skill1}</li>
+              <li>{row.lancer_skill2}</li>
+              <li>{row.lancer_skill3}</li>
             </ul>
           </td>
           <td>
             <p className="sName">{row.rider}</p>
             <ul className="sSkill">
-              <li>{this.strSkillKv(row.rider_skill, 2)}</li>
-              <li>{this.strSkillKv(row.rider_skill, 3)}</li>
-              <li>{this.strSkillKv(row.rider_skill, 4)}</li>
+              <li>{row.rider_skill1}</li>
+              <li>{row.rider_skill2}</li>
+              <li>{row.rider_skill3}</li>
             </ul>
           </td>
           <td>
             <p className="sName">{row.caster}</p>
             <ul className="sSkill">
-              <li>{this.strSkillKv(row.caster_skill, 2)}</li>
-              <li>{this.strSkillKv(row.caster_skill, 3)}</li>
-              <li>{this.strSkillKv(row.caster_skill, 4)}</li>
+              <li>{row.caster_skill1}</li>
+              <li>{row.caster_skill2}</li>
+              <li>{row.caster_skill3}</li>
             </ul>
           </td>
           <td>
             <p className="sName">{row.assassin}</p>
             <ul className="sSkill">
-              <li>{this.strSkillKv(row.assassin_skill, 2)}</li>
-              <li>{this.strSkillKv(row.assassin_skill, 3)}</li>
-              <li>{this.strSkillKv(row.assassin_skill, 4)}</li>
+              <li>{row.assassin_skill1}</li>
+              <li>{row.assassin_skill2}</li>
+              <li>{row.assassin_skill3}</li>
             </ul>
           </td>
           <td>
             <p className="sName">{row.berserker}</p>
             <ul className="sSkill">
-              <li>{this.strSkillKv(row.berserker_skill, 2)}</li>
-              <li>{this.strSkillKv(row.berserker_skill, 3)}</li>
-              <li>{this.strSkillKv(row.berserker_skill, 4)}</li>
+              <li>{row.berserker_skill1}</li>
+              <li>{row.berserker_skill2}</li>
+              <li>{row.berserker_skill3}</li>
             </ul>
           </td>
           <td>
             <p className="sName">{row.extra}</p>
             <ul className="sSkill">
-              <li>{this.strSkillKv(row.extra_skill, 2)}</li>
-              <li>{this.strSkillKv(row.extra_skill, 3)}</li>
-              <li>{this.strSkillKv(row.extra_skill, 4)}</li>
+              <li>{row.extra_skill1}</li>
+              <li>{row.extra_skill2}</li>
+              <li>{row.extra_skill3}</li>
             </ul>
           </td>
           <td>{row.comment}</td>
